@@ -7,44 +7,11 @@
         <script src='js/parse.js'></script>
     </head>
     <body>
-        <span id='el0'>X</span>
-        <span id='el1'>A</span>
-        <span id='el2'>B</span>
-        <span id='el3'>C</span>
-        <span id='el4'>A</span>
-        <span id='el5'>B</span>
-        <span id='el6'>C</span>
-        <span id='el7'>A</span>
-        <span id='el8'>B</span>
-        <span id='el9'>C</span>
-        <span id='el10'>X</span>
-
-        <div style='visibility:hidden;position:absolute;top:200;left:400;'>
-        <span id='fl0'>X</span>
-        <span id='fl1'>A</span>
-        <span id='fl2'>A</span>
-        <span id='fl3'>A</span>
-        <span id='fl4'>B</span>
-        <span id='fl5'>B</span>
-        <span id='fl6'>B</span>
-        <span id='fl7'>C</span>
-        <span id='fl8'>C</span>
-        <span id='fl9'>C</span>
-        <span id='fl10'>X</span>
-        </div>
+        <div id='d1'>XABCABCABCX</div>
+        <div id='d2' style='visibility:hidden;position:absolute;top:200;left:400;'>XAAABBBCCCX</div>
         <script type='text/javascript'>
-            var doc1 = Document();
-            var doc2 = Document();
-            for (var i = 0; i < 11; ++i) {
-                var name1 = 'el' + i;
-                var name2 = 'fl' + i;
-                var elt = document.getElementById(name1);
-                var e = Entity(elt, elt.innerHTML);
-                doc1.addEntity(e, getCoords(elt));
-                elt = document.getElementById(name2);
-                e = Entity(elt, elt.innerHTML);
-                doc2.addEntity(e, getCoords(elt));
-            }
+            var doc1 = parsePlain(document.getElementById('d1'));
+            var doc2 = parsePlain(document.getElementById('d2'));
             var m = constructMatches(doc1, doc2);
             setTimeout(function(){ animate(line2d, m.matches, [], []); },1000);
         </script>
