@@ -7,12 +7,18 @@
         <script src='js/parse.js'></script>
     </head>
     <body>
-        <div id='d1' style='width:400px;position:absolute;top:5;left:5'>
+        <div id='d1' style='width:300px;position:absolute;top:5;left:5'>
             <h1>The eyes</h1>
             'to be or not to be' that is the question; whether 'tis nobler in the mind to suffer the slings and arrows of outrageous fortune, or to take arms against a sea of troubles, and by opposing, end them?
+            <br>
+
+            'to be or not to be' that is the question; whether 'tis nobler in the mind to suffer the slings and arrows of outrageous fortune, or to take arms against a sea of troubles, and by opposing, end them?
         </div>
-        <div id='d2' style='visibility:hidden;width:400px;position:absolute;top:5;left:5;'>
+        <div id='d2' style='visibility:hidden;width:300px;position:absolute;top:5;left:5;'>
             <h1>They see</h1>
+            is a befitting quote from one of shakespeare's greatest tragedies; but why wont hamlet's inspiring motto toss our stubborn hero's tortuous battle for life, on one hand, and death, on another?
+            <br>
+
             is a befitting quote from one of shakespeare's greatest tragedies; but why wont hamlet's inspiring motto toss our stubborn hero's tortuous battle for life, on one hand, and death, on another?
         </div>
         <div style='display:none'>
@@ -24,8 +30,12 @@
             console.log(m.matches);
             console.log(m.unmatched1);
             console.log(m.unmatched2);
+            var params = {delay:0,duration: 5};
+            var speed = manhattan2dConstantTime(m.matches, params);
+            params.constant_speed = speed;
             var callbacks = {
-                animate: line2d,
+                animate: manhattan2d,
+                params: params,
                 done: function() {
                     console.log('done');
                     document.getElementById('d1').style['display'] = 'none';
