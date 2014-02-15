@@ -12,6 +12,7 @@ var getCoords = function(e) {
 
 var convertChar = function(elt) {
     var toRemove = [];
+    var newelts = [];
     var transformelts = [];
     var insertbefore = [];
     var children = elt.childNodes;
@@ -23,11 +24,16 @@ var convertChar = function(elt) {
             var nodetext = children[i].nodeValue;
             var s = "";
             for (var j = 0; j < nodetext.length; ++j) {
-                if (/\s/.test(nodetext[j])) continue;
-                var newelt = document.createElement('span');
-                newelt.className = '_transform-entity';
-                newelt.innerHTML = nodetext[j];
-                transformelts.push(newelt);
+                var newelt;
+                if (/\s/.test(nodetext[j])) {
+                    newelt = document.createTextNode(nodetext[j]);
+                } else {
+                    newelt = document.createElement('span');
+                    newelt.className = '_transform-entity';
+                    newelt.innerHTML = nodetext[j];
+                    transformelts.push(newelt);
+                }
+                newelts.push(newelt);
                 if (i != children.length-1) {
                     insertbefore.push(children[i+1]);
                 } else {
@@ -36,11 +42,11 @@ var convertChar = function(elt) {
             }
         }
     }
-    for (var i = 0; i < transformelts.length; ++i) {
+    for (var i = 0; i < newelts.length; ++i) {
         if (insertbefore[i])
-            elt.insertBefore(transformelts[i], insertbefore[i]);
+            elt.insertBefore(newelts[i], insertbefore[i]);
         else
-            elt.appendChild(transformelts[i]);
+            elt.appendChild(newelts[i]);
 
     }
     for (var i = 0; i < toRemove.length; ++i) elt.removeChild(toRemove[i]);
