@@ -1,11 +1,12 @@
-var getCoords = function(e) {
+var getCoords = function(e, root) {
     var x = 0;
     var y = 0;
     if (e.offsetParent) {
         do {
             x += e.offsetLeft;
             y += e.offsetTop;
-        } while (e = e.offsetParent);
+            e = e.offsetParent;
+        } while (e && (!root || e != root));
     }
     return [x,y];
 }
@@ -18,7 +19,7 @@ var convertChar = function(elt) {
     var children = elt.childNodes;
     for (var i = 0; i < children.length; ++i) {
         if (children[i].nodeType == 1) {
-            convertChar(children[i]);
+            transformelts = transformelts.concat(convertChar(children[i]));
         } else if (children[i].nodeType == 3) {
             toRemove.push(children[i]);
             var nodetext = children[i].nodeValue;
@@ -57,7 +58,16 @@ var parsePlain = function(elt) {
     var doc = Document();
     elts.forEach(function(v) {
         var e = Entity(v, v.innerHTML);
-        doc.addEntity(e, getCoords(v));
+        doc.addEntity(e, getCoords(v,elt));
+    });
+    return doc;
+}
+var parseStyled = function(elt) {
+    var elts = convertChar(elt);
+    var doc = Document();
+    elts.forEach(function(v) {
+        var e = StyledEntity(v, v.innerHTML);
+        doc.addEntity(e, getCoords(v,elt));
     });
     return doc;
 }
