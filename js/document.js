@@ -8,8 +8,8 @@ var Document = function() {
             var mid = -1;
             while (hi > lo) {
                 mid = Math.floor((hi+lo)/2);
-                if (entities[mid].entity.value() < e.value()) lo = mid+1;
-                else if (entities[mid].entity.value() > e.value()) hi = mid;
+                if (entities[mid].entity.lessThan(e)) lo = mid+1;
+                else if (e.lessThan(entities[mid].entity)) hi = mid;
                 else break;
             }
             mid = Math.floor((hi+lo)/2);

@@ -12,15 +12,15 @@ function constructMatchesEqual (doc1, doc2) {
     var matches = [];
 
     for (var i = 0; i < l1.length; ++i) {
-        while (j < l2.length && l2[j].entity.value() < l1[i].entity.value()) {
+        while (j < l2.length && l2[j].entity.lessThan(l1[i].entity)) {
             unmatched2.push({e:l2[j].entity, p:l2[j].pos});
             ++j;
         }
-        if (j < l2.length && l1[i].entity.value() == l2[j].entity.value()) {
-            if (i == 0 || l1[i].entity.value() != l1[i-1].entity.value()) {
+        if (j < l2.length && l1[i].entity.equals(l2[j].entity)) {
+            if (i == 0 || !l1[i].entity.equals(l1[i-1].entity)) {
                 // Count number of equal elements in l2
                 var nequal = 0;
-                while (j+nequal < l2.length && l2[j+nequal].entity.value() == l1[i].entity.value()) {
+                while (j+nequal < l2.length && l2[j+nequal].entity.equals(l1[i].entity)) {
                     nequal++;
                 }
                 // Shuffle
