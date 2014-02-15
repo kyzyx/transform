@@ -7,37 +7,63 @@
         <script src='js/parse.js'></script>
     </head>
     <body>
-        <div id='d1' style='width:300px;position:absolute;top:5;left:5'>
-            <h1>The eyes</h1>
-            'to be or not to be' that is the question; whether 'tis nobler in the mind to suffer the slings and arrows of outrageous fortune, or to take arms against a sea of troubles, and by opposing, end them?
-            <br>
+        <div id='d1' style='position:absolute;top:5;left:5'>
+            anthem for doomed youth
+            <p>
+            Wilfred Owen
+            <p>
+            what passing-bells for these who die as cattle?<br>
+            only the monstrous anger of the guns.<br>
+            only the stuttering rifles' rapid rattle<br>
+            can patter out their hasty orisons.<br>
+            no mockeries now for them, no prayers, nor bells;<br>
+            nor any voice of mourning, save the choirs:<br>
+            the shrill, demented choirs of wailing shells,<br>
+            and bugles calling for them from sad shires.<br>
+            <p>
 
-            'to be or not to be' that is the question; whether 'tis nobler in the mind to suffer the slings and arrows of outrageous fortune, or to take arms against a sea of troubles, and by opposing, end them?
+            what candles may be held to speed them all?<br>
+            not in the hands of boys, but in their eyes<br>
+            shall shine the holy glimmers of goodbyes.<br>
+            the pallor of girls' brows shall be their pall;<br>
+            their flowers, the tenderness of patient minds,<br>
+            and each slow dusk, a drawing-down of blinds.<br>
         </div>
-        <div id='d2' style='visibility:hidden;width:300px;position:absolute;top:5;left:5;'>
-            <h1>They see</h1>
-            is a befitting quote from one of shakespeare's greatest tragedies; but why wont hamlet's inspiring motto toss our stubborn hero's tortuous battle for life, on one hand, and death, on another?
-            <br>
+        <div id='d2' style='visibility:hidden;position:absolute;top:5;left:5;'>
+            hymn: the fight for martyrdom
+            <p>
+            Wilfred Owen
+            <p>
+            what pealing tolls for those condemned as bulls?<br>
+            is most hellishly angry gunshot.<br>
+            resonating trench gunfire's deathly prattle<br>
+            detonates non-melodious laments.<br>
+            why no hopes go forth, no lilting orisons?<br>
+            pay no vocal remorse bar these, the choristers,<br>
+            their mad trilled echoes of howlin' salvoes;<br>
+            trumpets blow in distress on far-off hillocks.<br>
+            <p>
 
-            is a befitting quote from one of shakespeare's greatest tragedies; but why wont hamlet's inspiring motto toss our stubborn hero's tortuous battle for life, on one hand, and death, on another?
+            what tapers can be held to hasten all the slain?<br>
+            held not by brash youths, but in these orbits<br>
+            how flicker shimmering god images of adieus.<br>
+            her pale forehead'll be terror's able friend;<br>
+            why, floral softness seen as patience,<br>
+            night, where mild days, wound down, end.<br>
         </div>
-        <div style='display:none'>
-        </div>
+        <h6 style='position:absolute;bottom:10px'> Edited by Edward Zhang for anagrammatical punctuation and capitalization</h6>
         <script type='text/javascript'>
             var doc1 = parseStyled(document.getElementById('d1'));
             var doc2 = parseStyled(document.getElementById('d2'));
             var m = constructMatches(doc1, doc2);
-            console.log(m.matches);
-            console.log(m.unmatched1);
-            console.log(m.unmatched2);
-            var params = {delay:0,duration: 5};
+            var params = {delay:0,duration: 4};
             var speed = manhattan2dConstantTime(m.matches, params);
             params.constant_speed = speed;
             var callbacks = {
+                //animate: line2d,
                 animate: manhattan2d,
                 params: params,
                 done: function() {
-                    console.log('done');
                     document.getElementById('d1').style['display'] = 'none';
                     document.getElementById('d2').style['visibility'] = 'visible';
                 }
@@ -45,7 +71,7 @@
 
             setTimeout(function() {
                            animate(callbacks, m.matches, [], []);
-                       },1000);
+                       },100);
         </script>
     </body>
 </html>
