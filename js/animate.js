@@ -8,12 +8,51 @@ function addCSSRule(sheet, selector, rules, index) {
     }
 }
 
+var AnimEventManager = function() {
+    var counter = 0;
+    var waiting = false;
+    var f = function() {;};
+    var startHandler = function() {
+        counter++;
+    };
+    var endHandler = function() {
+        --counter;
+        if (waiting && counter == 0) {
+            f();
+        }
+    };
+    var that = {
+        wait: function(fun) {
+            waiting = true;
+            if (fun) f = fun;
+        },
+        addListeners: function(e) {
+            e.elt().addEventListener('animationstart', startHandler, false);
+            e.elt().addEventListener('webkitAnimationStart', startHandler, false);
+            e.elt().addEventListener('oanimationstart', startHandler, false);
+            e.elt().addEventListener('MSAnimationStart', startHandler, false);
+            e.elt().addEventListener('animationend', endHandler, false);
+            e.elt().addEventListener('webkitAnimationEnd', endHandler, false);
+            e.elt().addEventListener('oanimationend', endHandler, false);
+            e.elt().addEventListener('MSAnimationEnd', endHandler, false);
+        },
+    };
+    return that;
+}
 
-function animate(animfun, matches, unmatched1, unmatched2) {
+function animate(callbacks, matches, unmatched1, unmatched2) {
     if (typeof unmatched1 == 'undefined') {
         unmatched1 = matches.unmatched1;
         unmatched2 = matches.unmatched2;
         matches = matches.matches;
+    }
+    var animfun;
+    var donefun = function() {;};
+    if (typeof callbacks == 'function') {
+        animfun = callbacks;
+    } else {
+        animfun = callbacks.animate;
+        donefun = callbacks.done;
     }
     var sheet = (function() {
         var style = document.createElement("style");
@@ -22,9 +61,13 @@ function animate(animfun, matches, unmatched1, unmatched2) {
         return style;
     })();
 
+    var evManager = AnimEventManager();
+
     matches.forEach(function(v) {
         animfun(v.e1, v.e2, v.p1, v.p2, sheet);
+        evManager.addListeners(v.e1);
     });
+    evManager.wait(donefun);
 }
 
 var numanims = 0;

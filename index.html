@@ -7,10 +7,11 @@
         <script src='js/parse.js'></script>
     </head>
     <body>
-        <div id='d1' style='position:absolute;top:0;left:0'>
+        <div id='d1' style='width:400px;position:absolute;top:5;left:5'>
+
             'to be or not to be' that is the question; whether 'tis nobler in the mind to suffer the slings and arrows of outrageous fortune, or to take arms against a sea of troubles, and by opposing, end them?
         </div>
-        <div id='d2' style='visibility:hidden;position:absolute;top:0;left:0;'>
+        <div id='d2' style='visibility:hidden;width:400px;position:absolute;top:5;left:5;'>
             is a befitting quote from one of shakespeare's greatest tragedies; but why wont hamlet's inspiring motto toss our stubborn hero's tortuous battle for life, on one hand, and death, on another?
         </div>
         <script type='text/javascript'>
@@ -20,7 +21,18 @@
             console.log(m.matches);
             console.log(m.unmatched1);
             console.log(m.unmatched2);
-            setTimeout(function(){ animate(line2d, m.matches, [], []); },1000);
+            var callbacks = {
+                animate: line2d,
+                done: function() {
+                    console.log('done');
+                    document.getElementById('d1').style['display'] = 'none';
+                    document.getElementById('d2').style['visibility'] = 'visible';
+                }
+            };
+
+            setTimeout(function() {
+                           animate(callbacks, m.matches, [], []);
+                       },1000);
         </script>
     </body>
 </html>
