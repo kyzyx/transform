@@ -55,10 +55,16 @@ function animate(callbacks, matches, unmatched1, unmatched2) {
 
     var evManager = AnimEventManager();
 
+    var csstext = "";
     matches.forEach(function(v) {
-        animfun(v.e1, v.e2, v.p1, v.p2, params, sheet);
+        csstext += animfun(v.e1, v.e2, v.p1, v.p2, params, sheet);
         evManager.addListeners(v.e1);
     });
+    if (sheet.styleSheet) {
+        sheet.styleSheet.cssText += "\n" + csstext;
+    } else {
+        sheet.appendChild(document.createTextNode(csstext));
+    }
     evManager.wait(donefun);
 }
 
@@ -94,18 +100,8 @@ function line2d(e1, e2, p1, p2, params, sheet) {
     rule += "100%{left:" + p2[0] + ";top:" + p2[1] + ";}";
 
 
-    var css = "@keyframes " + name + "{" + rule + "}";
-    if (sheet.styleSheet) {
-        sheet.styleSheet.cssText += "\n" + css;
-    } else {
-        sheet.appendChild(document.createTextNode(css));
-    }
-    css = "@-webkit-keyframes " + name + "{" + rule + "}";
-    if (sheet.styleSheet) {
-        sheet.styleSheet.cssText += "\n" + css;
-    } else {
-        sheet.appendChild(document.createTextNode(css));
-    }
+    var css = "@keyframes " + name + "{" + rule + "}\n" +
+        "@-webkit-keyframes " + name + "{" + rule + "}";
     // Run animation
     e1.elt().style['animation-duration'] = duration;
     e1.elt().style['animation-delay'] = delay;
@@ -119,6 +115,8 @@ function line2d(e1, e2, p1, p2, params, sheet) {
     e1.elt().style['top'] = p1[1];
     e1.elt().style['animation-name'] = name;
     e1.elt().style['-webkit-animation-name'] = name;
+
+    return css;
 }
 
 function manhattan2d(e1, e2, p1, p2, params, sheet) {
@@ -185,18 +183,8 @@ function manhattan2d(e1, e2, p1, p2, params, sheet) {
     rule += "100%{left:" + p2[0] + ";top:" + p2[1] + ";}";
 
 
-    var css = "@keyframes " + name + "{" + rule + "}";
-    if (sheet.styleSheet) {
-        sheet.styleSheet.cssText += "\n" + css;
-    } else {
-        sheet.appendChild(document.createTextNode(css));
-    }
-    css = "@-webkit-keyframes " + name + "{" + rule + "}";
-    if (sheet.styleSheet) {
-        sheet.styleSheet.cssText += "\n" + css;
-    } else {
-        sheet.appendChild(document.createTextNode(css));
-    }
+    var css = "@keyframes " + name + "{" + rule + "}\n" +
+        "@-webkit-keyframes " + name + "{" + rule + "}";
     // Run animation
     e1.elt().style['animation-duration'] = duration;
     e1.elt().style['animation-delay'] = delay;
@@ -210,6 +198,7 @@ function manhattan2d(e1, e2, p1, p2, params, sheet) {
     e1.elt().style['top'] = p1[1];
     e1.elt().style['animation-name'] = name;
     e1.elt().style['-webkit-animation-name'] = name;
+    return css;
 }
 
 function manhattanDist(p1, p2) {
