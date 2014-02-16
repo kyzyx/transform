@@ -57,22 +57,37 @@
             var doc2 = parseStyled(document.getElementById('d2'));
             var m = constructMatches(doc1, doc2);
             var center = calcCenter(m);
-            var params = {parentelt:document.getElementById('d1'),
-                delay: 0, duration: 4, centerx: center[0], centery: center[1]};
-            var callbacks = {
-                //animate: line2d,
-                //animate: manhattan2d,
-                animate: explode3d,
-                params: params,
-                done: function() {
-                    document.getElementById('d1').style['display'] = 'none';
-                    document.getElementById('d2').style['visibility'] = 'visible';
-                }
+            var params = {
+                //animatefun: line2d,
+                //animatefun: manhattan2d,
+                animatefun: explode3d,
+                parentelt:document.getElementById('d1'),
+                delay: 0,
+                duration: 4,
+                centerx: center[0], centery: center[1],
             };
-
-            setTimeout(function() {
-                           animate(callbacks, m.matches, [], []);
-                       },100);
+            var forwardanimation = animate(params, m.matches, m.unmatched1, m.unmatched2);
+            m = invertMatches(m);
+            params.animatefun = manhattan2d;
+            var reverseanimation = animate(params, m.matches, m.unmatched1, m.unmatched2);
+            var direction = 0;
+            document.getElementById('body').onclick = function() {
+                if (direction == 0) {
+                    reverseanimation.reset();
+                    forwardanimation.start(function() {
+                        document.getElementById('d1').style['display'] = 'none';
+                        document.getElementById('d2').style['display'] = 'block';
+                        document.getElementById('d2').style['visibility'] = 'visible';
+                    });
+                } else {
+                    forwardanimation.reset();
+                    reverseanimation.start(function() {
+                        document.getElementById('d2').style['display'] = 'none';
+                        document.getElementById('d1').style['display'] = 'block';
+                    });
+                }
+                direction = 1 - direction;
+            };
         </script>
     </body>
 </html>

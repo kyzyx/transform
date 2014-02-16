@@ -60,3 +60,15 @@ function constructMatches (doc1, doc2) {
     return constructMatchesEqual(doc1, doc2);
 }
 
+function invertMatches(m) {
+    var matches = [];
+    m.matches.forEach(function(v) {
+        matches.push({
+            e1:v.e2,
+            e2:v.e1,
+            p1:v.p2,
+            p2:v.p1
+        });
+    });
+    return {matches: matches, unmatched1: m.unmatched2, unmatched2: m.unmatched1}
+}
