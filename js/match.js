@@ -42,6 +42,9 @@ function constructMatchesEqual (doc1, doc2) {
             unmatched1.push({e:l1[i].entity, p:l1[i].pos});
         }
     }
+    for (; j < l2.length; ++j) {
+        unmatched2.push({e:l2[j].entity, p:l2[j].pos});
+    }
     return {matches: matches, unmatched1: unmatched1, unmatched2: unmatched2};
 }
 
