@@ -42,7 +42,6 @@ TODOs
        - Implement flow-field matching
 
 - Animation:
-    - Explosion (2d and 3d)
     - Add 3d effect to linear
     - Flow field transition
     - Swirling transition

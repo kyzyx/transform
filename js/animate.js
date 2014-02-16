@@ -243,3 +243,119 @@ function manhattan2dConstantTime(matches, params) {
     });
     return maxd/params.duration;
 }
+
+function explode3d(e1, e2, p1, p2, params, sheet) {
+    // Set up animation parameters
+    var defaultparams = {
+        duration: 2,
+        duration_variance: 0,
+        radius: 120,
+        inradius: 0.2,
+        outradius: 0.25,
+        centerx: 0,
+        centery: 0,
+        delayamount: 0.5,
+        perspective: 2,
+        zscale: 1,
+        parentelt: null,
+    };
+    if (!params) params = defaultparams;
+    else {
+        for (param in defaultparams) {
+            if (!(params.hasOwnProperty(param))) {
+                params[param] = defaultparams[param];
+            }
+        }
+    }
+    var angle = 0;
+    var duration = params.duration + 's';
+    var delay = (Math.random()*params.delayamount) + 's';
+    var x = params.centerx;
+    var y = params.centery;
+    var dx1 = p1[0] - x;
+    var dy1 = p1[1] - y;
+    var dx2 = p2[0] - x;
+    var dy2 = p2[1] - y;
+    var d = Math.sqrt(dx1*dx1 + dy1*dy1);
+    var perspective = params.perspective*(params.radius + params.outradius);
+    if (params.parentelt) {
+        // Scale angle by distance from center
+        angle = (Math.random()-0.5)*Math.PI/(1 + d*d/9000);
+        params.parentelt.style['perspective'] = perspective + 'px';
+        params.parentelt.style['-webkit-perspective'] = perspective + 'px';
+        params.parentelt.style['MozPerspective'] = perspective + 'px';
+        params.parentelt.style['perspective-origin'] = x + 'px ' + y + 'px';
+        params.parentelt.style['-webkit-perspective-origin'] = x + 'px ' + y + 'px';
+        params.parentelt.style['MozPerspectiveOrigin'] = x + 'px ' + y + 'px';
+    }
+
+    // Calculate imploded position
+    var r = 1 - params.inradius*Math.random();
+    var imp = [r*dx1 + x, r*dy1 + y, 0.5];
+
+    // Calculate exploded position
+    dx1/=d; dy1/=d;
+    var r = params.radius*(1 + params.outradius*(2*Math.random()-1));
+    var exp = [
+        Math.cos(angle)*r*dx1 + p1[0],
+        Math.cos(angle)*r*dy1 + p1[1],
+        Math.sin(angle)*r*params.zscale
+        ];
+
+    // Create keyframes:
+    var name = 'anim' + numanims++;
+
+    var transform = 'translate3d(' + p1[0] + 'px,' + p1[1] + 'px,0px)';
+    var explodeease = 'cubic-bezier(0.05,0.9,0.5,0.95)';
+    e1.elt().style['position'] = 'absolute';
+    e1.elt().style['top'] = '0px';
+    e1.elt().style['left'] = '0px';
+    e1.elt().style['transform'] = transform;
+    e1.elt().style['-webkit-transform'] = transform;
+    e1.elt().style['MozTransform'] = transform;
+    var rule = '';
+    rule += '0%{transform: '+transform+';-webkit-transform:'+transform+';animation-timing-function:ease-out;-webkit-animation-timing-function:ease-out}';
+    transform = 'translate3d(' + imp[0] + 'px,' + imp[1] + 'px,' + imp[2] + 'px)';
+    rule += '15%{transform: '+transform+';-webkit-transform:'+transform+';animation-timing-function:' + explodeease + ';-webkit-animation-timing-function:' + explodeease + '}';
+    transform = 'translate3d(' + exp[0] + 'px,' + exp[1] + 'px,' + exp[2] + 'px)';
+    rule += '90%{transform: '+transform+';-webkit-transform:'+transform+';animation-timing-function:ease-in;-webkit-animation-timing-function:ease-in}';
+    transform = 'translate3d(' + p2[0] + 'px,' + p2[1] + 'px,0px)';
+    rule += '100%{transform: '+transform+';-webkit-transform:'+transform+'}';
+
+
+    var css = "@keyframes " + name + "{" + rule + "}\n" +
+        "@-webkit-keyframes " + name + "{" + rule + "}\n";
+    // Run animation
+    e1.elt().style['animation-duration'] = duration;
+    e1.elt().style['animation-fill-mode'] = 'forwards';
+    e1.elt().style['animation-delay'] = delay;
+    e1.elt().style['-webkit-animation-duration'] = duration;
+    e1.elt().style['-webkit-animation-fill-mode'] = 'forwards';
+    e1.elt().style['-webkit-animation-delay'] = delay;
+    e1.elt().style['MozAnimationDuration'] = duration;
+    e1.elt().style['MozAnimationFillMode'] = 'forwards';
+    e1.elt().style['MozAnimationDelay'] = delay;
+    e1.elt().style['animation-name'] = name;
+    e1.elt().style['-webkit-animation-name'] = name;
+    e1.elt().style['MozAnimationName'] = name;
+
+    return css;
+}
+
+function calcCenter(m) {
+    var avg = [0,0];
+    var n = 0;
+    m.matches.forEach(function(v) {
+        ++n;
+        avg[0] += v.p1[0];
+        avg[1] += v.p1[1];
+    });
+    m.unmatched1.forEach(function(v) {
+        ++n;
+        avg[0] += v.p1[0];
+        avg[1] += v.p1[1];
+    });
+    avg[0] /= n;
+    avg[1] /= n;
+    return avg;
+}

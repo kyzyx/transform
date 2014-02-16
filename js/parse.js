@@ -31,6 +31,7 @@ var convertChar = function(elt) {
                 } else {
                     newelt = document.createElement('span');
                     newelt.className = '_transform-entity';
+                    newelt.style['display'] = 'inline-block';
                     newelt.innerHTML = nodetext[j];
                     transformelts.push(newelt);
                 }

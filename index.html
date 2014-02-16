@@ -6,8 +6,8 @@
         <script src='js/animate.js'></script>
         <script src='js/parse.js'></script>
     </head>
-    <body>
-        <div id='d1' style='position:absolute;top:5;left:5'>
+    <body id='body'>
+        <div id='d1' style='position:absolute;top:170;left:400'>
             anthem for doomed youth
             <p>
             Wilfred Owen
@@ -29,7 +29,7 @@
             their flowers, the tenderness of patient minds,<br>
             and each slow dusk, a drawing-down of blinds.<br>
         </div>
-        <div id='d2' style='visibility:hidden;position:absolute;top:5;left:5;'>
+        <div id='d2' style='visibility:hidden;position:absolute;top:170;left:400;'>
             hymn: the fight for martyrdom
             <p>
             Wilfred Owen
@@ -56,12 +56,13 @@
             var doc1 = parseStyled(document.getElementById('d1'));
             var doc2 = parseStyled(document.getElementById('d2'));
             var m = constructMatches(doc1, doc2);
-            var params = {delay:0,duration: 4};
-            var speed = manhattan2dConstantTime(m.matches, params);
-            params.constant_speed = speed;
+            var center = calcCenter(m);
+            var params = {parentelt:document.getElementById('d1'),
+                delay: 0, duration: 4, centerx: center[0], centery: center[1]};
             var callbacks = {
                 //animate: line2d,
-                animate: manhattan2d,
+                //animate: manhattan2d,
+                animate: explode3d,
                 params: params,
                 done: function() {
                     document.getElementById('d1').style['display'] = 'none';
