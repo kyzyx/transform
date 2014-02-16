@@ -21,22 +21,17 @@ function fadeout(e, p, params, sheet) {
 
     var css = "@keyframes " + name + "{" + rule + "}\n" +
         "@-webkit-keyframes " + name + "{" + rule + "}\n";
-    // Run animation
-    e.elt().style['animation-duration'] = params.outduration;
-    e.elt().style['animation-fill-mode'] = 'forwards';
-    e.elt().style['animation-delay'] = params.outdelay;
-    e.elt().style['animation-timing-function'] = 'linear'
-    e.elt().style['-webkit-animation-duration'] = params.outduration;
-    e.elt().style['-webkit-animation-fill-mode'] = 'forwards';
-    e.elt().style['-webkit-animation-delay'] = params.outdelay;
-    e.elt().style['-webkit-animation-timing-function'] = 'linear';
-    e.elt().style['MozAnimationDuration'] = params.outduration;
-    e.elt().style['MozAnimationFillMode'] = 'forwards';
-    e.elt().style['MozAnimationDelay'] = params.outdelay;
-    e.elt().style['MozAnimationTimingFunction'] = 'linear';
-    e.elt().setAttribute('animationname', name);
-
-    return css;
+    var style = function(e) {
+        setStyle(e, 'animation-duration', params.outduration + 's', true);
+        setStyle(e, 'animation-fill-mode', 'forwards', true);
+        setStyle(e, 'animation-delay', params.outdelay + 's', true);
+        setStyle(e, 'animation-timing-function', 'linear', true);
+        setStyle(e, 'position', 'absolute');
+        setStyle(e, 'opacity', 1);
+        setStyle(e, 'left', p[0] + 'px');
+        setStyle(e, 'top', p[1] + 'px');
+    };
+    return {css: css, animname: name, setupfun: style};
 }
 function fadein(e, p, params, sheet) {
     var defaultparams = {
@@ -60,22 +55,17 @@ function fadein(e, p, params, sheet) {
 
     var css = "@keyframes " + name + "{" + rule + "}\n" +
         "@-webkit-keyframes " + name + "{" + rule + "}\n";
-    // Run animation
-    e.elt().style['animation-duration'] = params.induration;
-    e.elt().style['animation-fill-mode'] = 'forwards';
-    e.elt().style['animation-delay'] = params.indelay;
-    e.elt().style['animation-timing-function'] = 'linear'
-    e.elt().style['-webkit-animation-duration'] = params.induration;
-    e.elt().style['-webkit-animation-fill-mode'] = 'forwards';
-    e.elt().style['-webkit-animation-delay'] = params.indelay;
-    e.elt().style['-webkit-animation-timing-function'] = 'linear';
-    e.elt().style['MozAnimationDuration'] = params.induration;
-    e.elt().style['MozAnimationFillMode'] = 'forwards';
-    e.elt().style['MozAnimationDelay'] = params.indelay;
-    e.elt().style['MozAnimationTimingFunction'] = 'linear';
-    e.elt().setAttribute('animationname', name);
-
-    return css;
+    var style = function(e) {
+        setStyle(e, 'animation-duration', params.induration + 's', true);
+        setStyle(e, 'animation-fill-mode', 'forwards', true);
+        setStyle(e, 'animation-delay', params.indelay + 's', true);
+        setStyle(e, 'animation-timing-function', 'linear', true);
+        setStyle(e, 'position', 'absolute');
+        setStyle(e, 'opacity', 0);
+        setStyle(e, 'left', p[0] + 'px');
+        setStyle(e, 'top', p[1] + 'px');
+    };
+    return {css: css, animname: name, setupfun: style};
 }
 
 function line2d(e1, e2, p1, p2, params, sheet) {
@@ -111,25 +101,17 @@ function line2d(e1, e2, p1, p2, params, sheet) {
 
     var css = "@keyframes " + name + "{" + rule + "}\n" +
         "@-webkit-keyframes " + name + "{" + rule + "}\n";
-    // Run animation
-    e1.elt().style['animation-duration'] = duration;
-    e1.elt().style['animation-fill-mode'] = 'forwards';
-    e1.elt().style['animation-delay'] = delay;
-    e1.elt().style['animation-timing-function'] = params.easing;
-    e1.elt().style['-webkit-animation-duration'] = duration;
-    e1.elt().style['-webkit-animation-fill-mode'] = 'forwards';
-    e1.elt().style['-webkit-animation-delay'] = delay;
-    e1.elt().style['-webkit-animation-timing-function'] = params.easing;
-    e1.elt().style['MozAnimationDuration'] = duration;
-    e1.elt().style['MozAnimationFillMode'] = 'forwards';
-    e1.elt().style['MozAnimationDelay'] = delay;
-    e1.elt().style['MozAnimationTimingFunction'] = params.easing;
-    e1.elt().style['position'] = 'absolute';
-    e1.elt().style['left'] = p1[0];
-    e1.elt().style['top'] = p1[1];
-    e1.elt().setAttribute('animationname', name);
-
-    return css;
+    var style = function(e) {
+        e2.elt().style['visibility'] = 'hidden';
+        setStyle(e, 'animation-duration', duration, true);
+        setStyle(e, 'animation-fill-mode', 'forwards', true);
+        setStyle(e, 'animation-delay', delay, true);
+        setStyle(e, 'animation-timing-function', params.easing, true);
+        setStyle(e, 'position', 'absolute');
+        setStyle(e, 'left', p1[0] + 'px');
+        setStyle(e, 'top', p1[1] + 'px');
+    };
+    return {css: css, animname: name, setupfun: style};
 }
 
 function manhattan2d(e1, e2, p1, p2, params, sheet) {
@@ -198,25 +180,17 @@ function manhattan2d(e1, e2, p1, p2, params, sheet) {
 
     var css = "@keyframes " + name + "{" + rule + "}\n" +
         "@-webkit-keyframes " + name + "{" + rule + "}\n";
-    // Run animation
-    e1.elt().style['animation-duration'] = duration;
-    e1.elt().style['animation-fill-mode'] = 'forwards';
-    e1.elt().style['animation-delay'] = delay;
-    e1.elt().style['animation-timing-function'] = 'linear';
-    e1.elt().style['-webkit-animation-duration'] = duration;
-    e1.elt().style['-webkit-animation-fill-mode'] = 'forwards';
-    e1.elt().style['-webkit-animation-delay'] = delay;
-    e1.elt().style['-webkit-animation-timing-function'] = 'linear';
-    e1.elt().style['MozAnimationDuration'] = duration;
-    e1.elt().style['MozAnimationFillMode'] = 'forwards';
-    e1.elt().style['MozAnimationDelay'] = delay;
-    e1.elt().style['MozAnimationTimingFunction'] = 'linear';
-    e1.elt().style['position'] = 'absolute';
-    e1.elt().style['left'] = p1[0];
-    e1.elt().style['top'] = p1[1];
-    e1.elt().setAttribute('animationname', name);
-
-    return css;
+    var style = function(e) {
+        e2.elt().style['visibility'] = 'hidden';
+        setStyle(e, 'animation-duration', duration, true);
+        setStyle(e, 'animation-fill-mode', 'forwards', true);
+        setStyle(e, 'animation-delay', delay, true);
+        setStyle(e, 'animation-timing-function', 'linear', true);
+        setStyle(e, 'position', 'absolute');
+        setStyle(e, 'left', p1[0] + 'px');
+        setStyle(e, 'top', p1[1] + 'px');
+    };
+    return {css: css, animname: name, setupfun: style};
 }
 
 function manhattanDist(p1, p2) {
@@ -332,18 +306,12 @@ function explode3d(e1, e2, p1, p2, params, sheet) {
 
     // Create keyframes:
     var name = 'anim' + numanims++;
-    var transform;
+    var initialtransform;
 
-    if (p1) transform = 'translate3d(' + p1[0] + 'px,' + p1[1] + 'px,0px)';
-    else    transform = 'translate3d(' + exp[0] + 'px,' + exp[1] + 'px,' + exp[2] + 'px)';
+    if (p1) initialtransform = 'translate3d(' + p1[0] + 'px,' + p1[1] + 'px,0px)';
+    else    initialtransform = 'translate3d(' + exp[0] + 'px,' + exp[1] + 'px,' + exp[2] + 'px)';
     var explodeease = 'cubic-bezier(0.05,0.9,0.5,0.95)';
-    e1.elt().style['position'] = 'absolute';
-    e1.elt().style['top'] = '0px';
-    e1.elt().style['left'] = '0px';
-    e1.elt().style['transform'] = transform;
-    e1.elt().style['-webkit-transform'] = transform;
-    e1.elt().style['MozTransform'] = transform;
-
+    var transform = initialtransform;
     var rule = '';
     rule += '0%{transform: '+transform+';-webkit-transform:'+transform+';animation-timing-function:ease-out;-webkit-animation-timing-function:ease-out}';
     if (p1) {
@@ -359,19 +327,18 @@ function explode3d(e1, e2, p1, p2, params, sheet) {
 
     var css = "@keyframes " + name + "{" + rule + "}\n" +
         "@-webkit-keyframes " + name + "{" + rule + "}\n";
-    // Run animation
-    e1.elt().style['animation-duration'] = duration;
-    e1.elt().style['animation-fill-mode'] = 'forwards';
-    e1.elt().style['animation-delay'] = delay;
-    e1.elt().style['-webkit-animation-duration'] = duration;
-    e1.elt().style['-webkit-animation-fill-mode'] = 'forwards';
-    e1.elt().style['-webkit-animation-delay'] = delay;
-    e1.elt().style['MozAnimationDuration'] = duration;
-    e1.elt().style['MozAnimationFillMode'] = 'forwards';
-    e1.elt().style['MozAnimationDelay'] = delay;
-    e1.elt().setAttribute('animationname', name);
 
-    return css;
+    var style = function(e) {
+        if (p1 && p2) e2.elt().style['visibility'] = 'hidden';
+        setStyle(e, 'animation-duration', duration, true);
+        setStyle(e, 'animation-fill-mode', 'forwards', true);
+        setStyle(e, 'animation-delay', delay, true);
+        setStyle(e, 'transform', initialtransform, true);
+        setStyle(e, 'position', 'absolute');
+        setStyle(e, 'left', '0px');
+        setStyle(e, 'top', '0px');
+    };
+    return {css: css, animname: name, setupfun: style};
 }
 
 function calcCenter(m) {
