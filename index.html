@@ -52,7 +52,7 @@
             why, floral softness seen as patience,<br>
             night, where mild days, wound down, end.<br>
         </div>
-        <h6 style='position:absolute;bottom:10px'> Edited by Edward Zhang for anagrammatical punctuation and capitalization</h6>
+        <h6 style='position:absolute;bottom:10px'> Click to trigger transition.<br>Edited by Edward Zhang for anagrammatical punctuation and capitalization</h6>
         <script type='text/javascript'>
             var doc1 = parseStyled(document.getElementById('d1'));
             var doc2 = parseStyled(document.getElementById('d2'));
@@ -72,19 +72,15 @@
             params.animatefun = manhattan2d;
             var reverseanimation = animate(params, m.matches, m.unmatched1, m.unmatched2);
             var direction = 0;
+            forwardanimation.reset();
             document.getElementById('body').onclick = function() {
                 if (direction == 0) {
-                    reverseanimation.reset();
                     forwardanimation.start(function() {
-                        document.getElementById('d1').style['display'] = 'none';
-                        document.getElementById('d2').style['display'] = 'block';
-                        document.getElementById('d2').style['visibility'] = 'visible';
+                        reverseanimation.reset();
                     });
                 } else {
-                    forwardanimation.reset();
                     reverseanimation.start(function() {
-                        document.getElementById('d2').style['display'] = 'none';
-                        document.getElementById('d1').style['display'] = 'block';
+                        forwardanimation.reset();
                     });
                 }
                 direction = 1 - direction;
