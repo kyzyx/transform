@@ -101,20 +101,26 @@ function line2d(e1, e2, p1, p2, params, sheet) {
 
 
     var css = "@keyframes " + name + "{" + rule + "}\n" +
-        "@-webkit-keyframes " + name + "{" + rule + "}";
+        "@-webkit-keyframes " + name + "{" + rule + "}\n";
     // Run animation
     e1.elt().style['animation-duration'] = duration;
+    e1.elt().style['animation-fill-mode'] = 'forwards';
     e1.elt().style['animation-delay'] = delay;
     e1.elt().style['animation-timing-function'] = params.easing;
     e1.elt().style['-webkit-animation-duration'] = duration;
     e1.elt().style['-webkit-animation-fill-mode'] = 'forwards';
     e1.elt().style['-webkit-animation-delay'] = delay;
     e1.elt().style['-webkit-animation-timing-function'] = params.easing;
+    e1.elt().style['MozAnimationDuration'] = duration;
+    e1.elt().style['MozAnimationFillMode'] = 'forwards';
+    e1.elt().style['MozAnimationDelay'] = delay;
+    e1.elt().style['MozAnimationTimingFunction'] = params.easing;
     e1.elt().style['position'] = 'absolute';
     e1.elt().style['left'] = p1[0];
     e1.elt().style['top'] = p1[1];
     e1.elt().style['animation-name'] = name;
     e1.elt().style['-webkit-animation-name'] = name;
+    e1.elt().style['MozAnimationName'] = name;
 
     return css;
 }
@@ -184,20 +190,26 @@ function manhattan2d(e1, e2, p1, p2, params, sheet) {
 
 
     var css = "@keyframes " + name + "{" + rule + "}\n" +
-        "@-webkit-keyframes " + name + "{" + rule + "}";
+        "@-webkit-keyframes " + name + "{" + rule + "}\n";
     // Run animation
     e1.elt().style['animation-duration'] = duration;
+    e1.elt().style['animation-fill-mode'] = 'forwards';
     e1.elt().style['animation-delay'] = delay;
     e1.elt().style['animation-timing-function'] = 'linear';
     e1.elt().style['-webkit-animation-duration'] = duration;
     e1.elt().style['-webkit-animation-fill-mode'] = 'forwards';
     e1.elt().style['-webkit-animation-delay'] = delay;
-    e1.elt().style['-webkit-animation-timing-function'] = 'linear'
+    e1.elt().style['-webkit-animation-timing-function'] = 'linear';
+    e1.elt().style['MozAnimationDuration'] = duration;
+    e1.elt().style['MozAnimationFillMode'] = 'forwards';
+    e1.elt().style['MozAnimationDelay'] = delay;
+    e1.elt().style['MozAnimationTimingFunction'] = 'linear';
     e1.elt().style['position'] = 'absolute';
     e1.elt().style['left'] = p1[0];
     e1.elt().style['top'] = p1[1];
     e1.elt().style['animation-name'] = name;
     e1.elt().style['-webkit-animation-name'] = name;
+    e1.elt().style['MozAnimationName'] = name;
     return css;
 }
 

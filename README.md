@@ -6,7 +6,6 @@ another. The simplest explanation is to picture the letters in an anagram
 physically rearranging themselves to switch between the two phrases.
 
 See an example at: http://www.cs.princeton.edu/~edwardz/transform.html
-(may be slow)
 
 Transform is general enough to work with any spatial arrangement
 of individual entities, as long as those entities have some notion
@@ -24,6 +23,8 @@ Future applications of questionable importance:
 - An anagram animation <sub>anemoneanemoneanemone</sub>
 - Movie sequence where protagonist decodes urgent secret message
 - Visually attractive but cryptographically insecure steganography
+
+Tested in the latest Firefox and Chrome, as well as IE11
 
 TODOs
 -----
@@ -49,7 +50,6 @@ TODOs
     - 3D paths
 
 - Other:
-    - Investigate performance issues - Why is it so much faster locally?
     - Load testing: How many animated spans can browsers handle?
 
 - Extensions:
